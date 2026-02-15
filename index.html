@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Nota 13 Baris</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-section">
+            <div class="header">
+                <h1>Isi Nota HCG</h1>
+                <p>Maksimal 13 Barang. Total dihitung otomatis.</p>
+            </div>
+
+            <form onsubmit="generateNota(event)">
+                
+                <div class="meta-info">
+                    <div class="input-group">
+                        <input type="text" id="inputTanggal" placeholder=" " required>
+                        <label>Tgl/Bln (Cth: 15/02)</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" id="inputTahun" placeholder=" " required>
+                        <label>Tahun (Cth: 26)</label>
+                    </div>
+
+                    <div class="input-group" style="grid-column: span 2;">
+                        <input type="text" id="inputKepada" placeholder=" " required>
+                        <label>Kepada Tuan/Toko</label>
+                    </div>
+                </div>
+
+                <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ccc;">
+
+                <div class="items-header">
+                    <span>Nama Barang</span>
+                    <span>Qty</span>
+                    <span>Harga Satuan</span>
+                </div>
+
+                <div id="items-container"></div>
+
+                <button type="submit" class="btn-generate">
+                    Generate Nota
+                </button>
+            </form>
+        </div>
+
+        <div class="preview-section">
+            <div class="preview-box">
+                <p class="placeholder-text" id="placeholderText">Preview...</p>
+                <canvas id="canvasNota"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <script>
+        const container = document.getElementById('items-container');
+        
+        // 🔥🔥🔥 UPDATE DISINI: LOOPING JADI 13 🔥🔥🔥
+        for (let i = 1; i <= 13; i++) {
+            const row = document.createElement('div');
+            row.className = 'item-row';
+            row.innerHTML = `
+                <div class="col-name"><input type="text" id="item${i}" placeholder="Barang ${i}"></div>
+                <div class="col-qty"><input type="number" id="qty${i}" placeholder="1"></div>
+                <div class="col-price"><input type="number" id="hrg${i}" placeholder="Rp"></div>
+            `;
+            container.appendChild(row);
+        }
+    </script>
+
+</body>
+</html>
