@@ -12,7 +12,7 @@
         <div class="form-section">
             <div class="header">
                 <h1>Isi Nota HCG</h1>
-                <p>Maksimal 13 Barang. Total dihitung otomatis.</p>
+                <p>Maksimal 13 Menu. Total dihitung otomatis.</p>
             </div>
 
             <form onsubmit="generateNota(event)">
@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="input-group" style="grid-column: span 2;">
-                        <input type="text" id="inputKepada" placeholder=" " required>
+                        <input type="text" id="inputKepada" placeholder=" " required maxlength="20">
                         <label>Kepada</label>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
             const row = document.createElement('div');
             row.className = 'item-row';
             row.innerHTML = `
-                <div class="col-name"><input type="text" id="item${i}" placeholder="Barang ${i}"></div>
+                <div class="col-name"><input type="text" id="item${i}" placeholder="Menu ${i}" maxlength="20"></div>
                 <div class="col-qty"><input type="number" id="qty${i}" placeholder="1"></div>
                 <div class="col-price"><input type="number" id="hrg${i}" placeholder="Rp"></div>
             `;
