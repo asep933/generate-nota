@@ -263,3 +263,54 @@ canvas {
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================
+   9. FIX KHUSUS UNTUK HP KECIL (MOBILE FIX)
+   ========================================= */
+@media (max-width: 480px) {
+    
+    /* 1. Atur Input Form Utama (Tanggal, Tahun, Kepada) */
+    .input-group input {
+        font-size: 14px;       /* Font input lebih kecil */
+        padding: 10px 8px;     /* Padding lebih rapat */
+        height: 40px;          /* Tinggi fix biar konsisten */
+    }
+
+    /* Label dalam keadaan diam (belum diklik) */
+    .input-group label {
+        font-size: 12px;       /* Font label lebih kecil */
+        top: 10px;             /* Posisi vertikal disesuaikan */
+        left: 8px;
+    }
+
+    /* Label saat Input Aktif (Floating ke atas) */
+    .input-group input:focus ~ label,
+    .input-group input:not(:placeholder-shown) ~ label {
+        top: -8px;             /* Naik pas di garis border */
+        font-size: 10px;       /* Ukuran label jadi sangat kecil tapi jelas */
+        padding: 0 4px;        /* Jarak background putih label */
+    }
+
+    /* 2. Atur Tabel Barang (Item Row) di HP */
+    /* Supaya input barang tidak terlalu sempit */
+    .items-header {
+        font-size: 11px;       /* Header tabel diperkecil */
+        gap: 5px;
+    }
+
+    .item-row {
+        gap: 5px;              /* Jarak antar kolom diperkecil */
+        margin-bottom: 8px;
+    }
+
+    .item-row input {
+        font-size: 13px;       /* Font isi tabel diperkecil */
+        padding: 6px 5px;      /* Padding tabel dirapatkan */
+    }
+
+    /* 3. Tombol Generate */
+    .btn-generate {
+        font-size: 14px;
+        padding: 12px;
+    }
+}
