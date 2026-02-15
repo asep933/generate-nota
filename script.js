@@ -12,7 +12,16 @@ const CONFIG = {
         total: 1350  
     },
     
-    grandTotal: { x: 1330, y: 2015 } 
+    grandTotal: { x: 1330, y: 2015 },
+
+    // 🔥🔥🔥 KOORDINAT CORETAN (STRIKETHROUGH) 🔥🔥🔥
+    coret: {
+        // Posisi kata "Lunas" di nota
+        lunas: { x: 203, y: 1980, width: 120 }, 
+        
+        // Posisi kata "Belum Lunas" di nota
+        belum: { x: 386, y: 1980, width: 287 }  
+    }
 };
 
 function getRandom(min, max) {
@@ -28,12 +37,10 @@ function generateNota(event) {
     const placeholder = document.getElementById('placeholderText');
 
     const image = new Image();
-    // Penting untuk keamanan browser
     image.crossOrigin = "Anonymous";
     image.src = 'assets/nota-harist.png'; 
 
     image.onload = function() {
-        // Pastikan font diload dulu
         document.fonts.load('48px PaperNote').then(function() {
             
             canvas.width = image.width;
@@ -94,6 +101,42 @@ function generateNota(event) {
             ctx.font = '64px PaperNote'; 
             ctx.fillText(formatRupiah(totalAkhir), CONFIG.grandTotal.x + getRandom(-2, 2), CONFIG.grandTotal.y + getRandom(-2, 2));
 
+
+            // 🔥🔥🔥 FITUR CORET STATUS LUNAS 🔥🔥🔥
+            // Cek radio button mana yang dipilih
+            const statusLunas = document.querySelector('input[name="statusLunas"]:checked');
+
+            if (statusLunas) {
+                ctx.beginPath();
+                ctx.lineWidth = 6; // Ketebalan garis coret
+                ctx.strokeStyle = '#1f2a36'; // Warna garis (sama kayak tinta)
+                
+                // Bikin garisnya agak miring dikit biar realistis
+                const jitterY = getRandom(-5, 5); 
+
+                if (statusLunas.value === "lunas") {
+                    // Jika LUNAS, coret kata "Belum Lunas"
+                    const startX = CONFIG.coret.belum.x;
+                    const startY = CONFIG.coret.belum.y + jitterY;
+                    const endX = startX + CONFIG.coret.belum.width;
+                    const endY = startY + getRandom(-2, 2); // Miring dikit ujungnya
+
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(endX, endY);
+                } 
+                else if (statusLunas.value === "belum") {
+                    // Jika BELUM LUNAS, coret kata "Lunas"
+                    const startX = CONFIG.coret.lunas.x;
+                    const startY = CONFIG.coret.lunas.y + jitterY;
+                    const endX = startX + CONFIG.coret.lunas.width;
+                    const endY = startY + getRandom(-2, 2);
+
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(endX, endY);
+                }
+                ctx.stroke(); // Gambar garisnya
+            }
+
             // Reset Setting
             ctx.globalCompositeOperation = 'source-over';
             ctx.globalAlpha = 1.0;
@@ -103,7 +146,6 @@ function generateNota(event) {
             canvas.style.display = 'block';
             canvas.scrollIntoView({behavior: "smooth"});
             
-            // Panggil fungsi download yang sudah diperbaiki
             downloadImage(canvas);
 
         }).catch(function(error) {
@@ -121,15 +163,12 @@ function formatRupiah(angka) {
     return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-// FUNGSI DOWNLOAD YANG SUDAH DIPERBAIKI
 function downloadImage(canvas) {
     try {
         const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
-        
         const link = document.createElement('a');
         link.download = 'nota-' + Date.now() + '.jpg';
         link.href = dataUrl;
-        
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -141,10 +180,5 @@ function downloadImage(canvas) {
         }
     } catch (e) {
         console.error(e);
-        if(e.name === "SecurityError") {
-            alert("Gagal Download: Browser memblokir akses gambar.\n\nSOLUSI: Gunakan 'Live Server' di VS Code, jangan buka file HTML langsung.");
-        } else {
-            alert("Gagal download: " + e.message);
-        }
     }
 }
